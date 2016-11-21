@@ -16,11 +16,12 @@ LOGIN = sys.argv[2].split("@")[0]
 PORT = int(sys.argv[2].split("@")[1].split(":")[1])
 SERVER = sys.argv[2].split("@")[1].split(":")[0]
 
-print("Servidor:" , SERVER)
-print("Puerto:" , PORT)
-print("Usuario:" , LOGIN)
+print("Servidor:", SERVER)
+print("Puerto:", PORT)
+print("Usuario:", LOGIN)
 
-if len(sys.argv) !=3:
+if len(sys.argv) != 3:
+
     sys.exit("Usage: python client.py method receiver@IP:SIPport")
 
 if METHOD not in ['INVITE', 'BYE']:
@@ -60,7 +61,3 @@ elif METHOD == 'BYE':
     # Cerramos todo
     my_socket.close()
     print("Fin.")
-    
-
-
-
