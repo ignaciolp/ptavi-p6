@@ -38,7 +38,21 @@ print("Enviando: " + LINE)
 my_socket.send(bytes(LINE, 'utf-8') + b'\r\n')
 data = my_socket.recv(1024)
 
-print('Recibido -- ', data.decode('utf-8'))
+print(data.decode('utf-8'))
+
+RECIBIMOS = data.decode('utf-8').split('\r\n\r\n')[0:-1]
+
+RECIBIMOS100 = ("SIP/2.0 100 Trying")
+RECIBIMOS180 = ("SIP/2.0 180 Ring")
+RECIBIMOS200 = ("SIP/2.0 200 OK")
+RECIBIMOSX = [RECIBIMOS100, RECIBIMOS180, RECIBIMOS200]
+
+if RECIBIMOS == RECIBIMOSX:
+    print("Enviando ACK...", "ACK" + LINE_INF)
+    my_socket.send(bytes("ACK" + LINE_INF, 'utf-8') + b'\r\n')
+    data = my_socket.recv(1024)
+
+print('Recibido -- ', RECIBIMOS)
 print("Terminando socket...")
 
 # Cerramos todo
