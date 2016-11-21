@@ -37,24 +37,20 @@ my_socket.connect((SERVER, PORT))
 print("Enviando: " + LINE)
 my_socket.send(bytes(LINE, 'utf-8') + b'\r\n')
 data = my_socket.recv(1024)
+print('Recibido -- ', data.decode('utf-8'))
 
-print(data.decode('utf-8'))
+if METHOD == 'INVITE':
+    ACKLINE = str('ACK' + ' sip:' + LOGIN + '@' + SERVER + ' SIP/2.0\r\n')
+    print("Enviando: " + ACKLINE)
+    my_socket.send(bytes(ACKLINE, 'utf-8') + b'\r\n')
 
-RECIBIMOS = data.decode('utf-8').split('\r\n\r\n')[0:-1]
+elif METHOD == 'BYE':
 
-RECIBIMOS100 = ("SIP/2.0 100 Trying")
-RECIBIMOS180 = ("SIP/2.0 180 Ring")
-RECIBIMOS200 = ("SIP/2.0 200 OK")
-RECIBIMOSX = [RECIBIMOS100, RECIBIMOS180, RECIBIMOS200]
+    print("Terminando socket...")
+    # Cerramos todo
+    my_socket.close()
+    print("Fin.")
+    
 
-if RECIBIMOS == RECIBIMOSX:
-    print("Enviando ACK...", "ACK" + LINE_INF)
-    my_socket.send(bytes("ACK" + LINE_INF, 'utf-8') + b'\r\n')
-    data = my_socket.recv(1024)
 
-print('Recibido -- ', RECIBIMOS)
-print("Terminando socket...")
 
-# Cerramos todo
-my_socket.close()
-print("Fin.")
