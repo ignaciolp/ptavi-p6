@@ -13,17 +13,15 @@ class EchoHandler(socketserver.DatagramRequestHandler):
     """
     Echo server class
     """
-    
-    
     def handle(self):
 
         # Escribe dirección y puerto del cliente (de tupla client_address)
 
-        #Leyendo linea a linea lo que nos envia el cliente
+        # Leyendo linea a linea lo que nos envia el cliente
         data = self.rfile.read().decode('utf-8')
         METHOD = data.split(' ')[0]
-        
-      # Detección de método SIP
+
+        # Detección de método SIP
         if METHOD == 'INVITE':
             print("El cliente nos manda: " + data)
             self.wfile.write(b"SIP/2.0 100 Trying\r\n\r\n")
@@ -64,9 +62,9 @@ if __name__ == "__main__":
     else:
         print('Listening...')
 
-    serv = socketserver.UDPServer(('',PORT) , EchoHandler)
+    serv = socketserver.UDPServer(('', PORT), EchoHandler)
     print("Lanzando servidor UDP de eco...")
-    
+
     try:
         serv.serve_forever()
     except KeyboardInterrupt:
